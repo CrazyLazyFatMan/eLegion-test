@@ -1,7 +1,21 @@
 # e-Legion test task
 
 ## Run project
+
 Open terminal in eLegion-test folder
+
+#### Requirements
+
+* To install all necessary requirements type in opened terminal `pip3 install requirements.txt`
+
+#### Database
+* Create postgres DB:
+    `
+    'NAME': 'elegion',
+    'USER': 'postgres',
+    'PASSWORD': 'postgres,
+    'HOST': '5432'
+    `
 
 * Run command `cd elegion_test`
 
