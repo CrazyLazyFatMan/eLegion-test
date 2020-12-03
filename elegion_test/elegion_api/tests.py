@@ -5,9 +5,10 @@ from .serializers import AuthorSerializer, BookSerializer
 
 
 class CreateAuthorTest(APITestCase):
+    """Test for creating an author"""
 
     def setUp(self):
-        self.author = {'name': 'John', 'surname': 'Ringo'}
+        self.author = {'name': 'John', 'surname': 'Lennon'}
 
     def test_create_author(self):
         response = self.client.post('/api/authors/', self.author)
@@ -15,6 +16,7 @@ class CreateAuthorTest(APITestCase):
 
 
 class CreateBookTest(APITestCase):
+    """Test for creating a book"""
 
     def setUp(self):
         self.author = Author.objects.create(
@@ -29,6 +31,7 @@ class CreateBookTest(APITestCase):
 
 
 class UpdateAuthorTest(APITestCase):
+    """Test for updating author`s data"""
 
     def setUp(self):
         self.author = Author.objects.create(
@@ -44,6 +47,7 @@ class UpdateAuthorTest(APITestCase):
 
 
 class UpdateBookTest(APITestCase):
+    """Test for updating book`s data"""
 
     def setUp(self):
         self.author = Author.objects.create(
@@ -63,10 +67,11 @@ class UpdateBookTest(APITestCase):
 
 
 class GetAuthor(APITestCase):
+    """Test for get a single author instance"""
 
     def setUp(self):
         self.author = Author.objects.create(
-            name='Robert',
+            name='Robert D.',
             surname='Weide'
         )
 
@@ -76,10 +81,11 @@ class GetAuthor(APITestCase):
 
 
 class GetBook(APITestCase):
+    """Test for get single book instance"""
 
     def setUp(self):
         self.author = Author.objects.create(
-            name='Robert',
+            name='Robert D.',
             surname='Weide'
         )
         self.book = Book.objects.create(
@@ -92,7 +98,40 @@ class GetBook(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
 
+class DeleteAuthor(APITestCase):
+    """Test for delete author"""
+
+    def setUp(self):
+        self.author = Author.objects.create(
+            name='Martin',
+            surname='Scorsese'
+        )
+
+    def test_delete_author(self):
+        response = self.client.delete(f'/api/authors/{self.author.id}/')
+        self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
+
+
+class DeleteBook(APITestCase):
+    """Test for delete book"""
+
+    def setUp(self):
+        self.author = Author.objects.create(
+            name='Martin',
+            surname='Scorsese'
+        )
+        self.book = Book.objects.create(
+            title='He just wanted to be a taxi driver',
+            author=self.author
+        )
+
+    def test_delete_book(self):
+        response = self.client.delete(f'/api/books/{self.book.id}/')
+        self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
+
+
 class GetAllAuthorsTest(APITestCase):
+    """Test for get all authors"""
 
     def setUp(self):
         Author.objects.create(
@@ -117,6 +156,7 @@ class GetAllAuthorsTest(APITestCase):
 
 
 class GetAllBooksTest(APITestCase):
+    """Test for get all books"""
 
     def setUp(self):
         self.authors = [
@@ -139,11 +179,11 @@ class GetAllBooksTest(APITestCase):
             author=self.authors[0]
         )
         Book.objects.create(
-            title='How to find your way',
+            title='How to find your own way',
             author=self.authors[1]
         )
         Book.objects.create(
-            title='Where swamps locates',
+            title='How to become tourists guide',
             author=self.authors[2]
         )
 
